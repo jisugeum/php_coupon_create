@@ -1,0 +1,53 @@
+<?php 
+    session_start();
+    header('Content-Type: text/html; charset=utf-8'); // utf-8인코딩
+
+    $db = new mysqli("localhost","root","1111","coupon");
+    $db->set_charset("utf8");
+
+    function db_connect($sql)
+    {
+        global $db;
+        return $db->query($sql);
+    }
+?>
+<!doctype html>
+<head>
+<meta charset="UTF-8">
+<title>쿠폰리스트</title>
+</head>
+<body>
+<div id="board_area"> 
+    <h1>쿠폰리스트</h1>    
+    <table class="list-table">
+        <thead>
+            <tr>
+               <th>쿠폰 번호</th>
+               <th>사용 여부</th>
+               <th>사용 일자</th>
+               <th>사용 유저</th>
+               <th>쿠폰 그룹</th>
+            </tr>
+    </thead>
+    <?php
+    $sql = db_connect("select * from coupon order by Cop_Inx  limit 0,100"); // 쿠폰 테이블에있는 Cop_Inx를 기준으로 100개까지 페이징
+    while($coupon = $sql->fetch_array())
+    {
+        $coup_num =$coupon["Cop_num"];     
+        ?>
+        <tbody>
+            <tr>
+                <td><?php echo substr( $coupon['Cop_num'], 0,4 )."-".substr( $coupon['Cop_num'], 4,4 )."-".substr( $coupon['Cop_num'], 8,4 )."-".substr( $coupon['Cop_num'], 12,4 );?></td> 
+                <td><?php echo $coupon['Used_Checked'];?></td>          
+                <td><?php echo $coupon['Used_Date'];?></td>
+                <td><?php echo $coupon['Used_User'];?></td>
+                <td><?php echo $coupon['Cop_Group'];?></td>
+            </tr>
+        </tbody>
+    <?php } ?>
+    <a href=coupon_create.php>쿠폰 생성 페이지로 이동</a><br>
+    <a href=main.php>관리자 페이지로 이동</a>
+    </table>
+</div>
+</body>
+</html>

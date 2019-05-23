@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>쿠폰 생성 페이지</title>
+    <meta charset="utf-8">
+<body>
+<script>
+//그룹명은 지정할수 있으며 숫자로 지정가능
+function maxLengthCheck(object){
+   if (object.value.length > object.maxLength)
+   {
+    object.value = object.value.slice(0, object.maxLength);
+   } 
+}
+</script>
+<h1>쿠폰 생성</h1>
+    <form name="coupon" method="post" action="coupon_create_ok.php">        
+        <div>
+            <h3>16 자리 중 앞에 들어갈 3자리를 적어주세요.<h3>        
+            <input type="text" id="prefix" name="prefix" maxlength="3"/> 
+        </div>
+        <div>
+        <h3>정할 그룹의 숫자를 입력해주세요.<h3>        
+            <input type="number" id="group_num" name="group_num" maxlength="3" oninput="maxLengthCheck(this)"/>
+        </div>
+
+        <div class="button">
+            <button type="sumbit"> 쿠폰 생성 </button>
+        </div> 
+    </form>
+<h2>
+<?php    
+    $create_ok = $_GET['create_ok'];
+    if($create_ok=='Y')
+    {
+        echo "쿠폰 생성 완료!!!";
+    }
+    else
+    {
+        echo "* 한번에 10만개가 생성됩니다.";
+    }
+?>
+</h2>
+<a href=main.php>관리자 페이지로 이동</a>
+</body>
+</head>
+</html>
